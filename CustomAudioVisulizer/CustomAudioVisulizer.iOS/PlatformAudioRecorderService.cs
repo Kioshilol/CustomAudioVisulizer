@@ -1,18 +1,21 @@
 using System;
 using System.IO;
-using System.Timers;
-using App1.iOS;
+using System.Threading.Tasks;
+using CustomAudioVisulizer.iOS;
+using CustomAudioVisulizer.Services.SystemTimer;
 using AVFoundation;
 using Foundation;
+using Xamarin.Forms;
 
-[assembly: Xamarin.Forms.Dependency(typeof(PlatformAudioRecorderService2))]
-namespace App1.iOS
+[assembly: Dependency(typeof(PlatformAudioRecorderService))]
+namespace CustomAudioVisulizer.iOS
 {
-    public class PlatformAudioRecorderService2 : IAudioRecorderService
+    public class PlatformAudioRecorderService : IAudioRecorderService
     {
-        private AVAudioRecorder _recorder;
-        private Timer _timer;
+        private readonly ISystemTimer _systemTimer = App.GetService<ISystemTimer>();
         
+        private AVAudioRecorder _recorder;
+
         public void StartRecording()
         {
             PrepareRecorder();
@@ -22,10 +25,7 @@ namespace App1.iOS
         public void StopRecording()
         {
             _recorder.Stop();
-            
-            _timer.Stop();
-            _timer.Elapsed -= TimerOnElapsed;
-            _timer.Dispose();
+            _systemTimer.Stop();
         }
 
         public Action<double> AmplitudeUpdateAction { get; set; }
@@ -33,19 +33,9 @@ namespace App1.iOS
         private void PrepareRecorder()
         {
             var audioSession = AVAudioSession.SharedInstance();
-            var err = audioSession.SetCategory(AVAudioSessionCategory.PlayAndRecord, AVAudioSessionCategoryOptions.MixWithOthers);
-            if (err != null)
-            {
-                Console.WriteLine("audioSession: {0}", err);
-            }
+            audioSession.SetCategory(AVAudioSessionCategory.PlayAndRecord, AVAudioSessionCategoryOptions.MixWithOthers);
+            audioSession.SetActive(true);
 
-            err = audioSession.SetActive(true);
-            if (err != null)
-            {
-                Console.WriteLine("audioSession: {0}", err);
-            }
-
-            var rate = (float)audioSession.SampleRate;
             NSObject[] values = {
                 NSNumber.FromInt32((int)AudioToolbox.AudioFormatType.MPEG4AAC),
                 NSNumber.FromInt32(16),
@@ -64,25 +54,20 @@ namespace App1.iOS
             
             var settings = NSDictionary.FromObjectsAndKeys(values, keys);
             var audioSettings = new AudioSettings(settings);
-            var audioFormat = new AVAudioFormat(audioSettings);
-
-            Console.WriteLine("buffer");
 
             var path = Path.GetTempPath();
             var guid = Guid.NewGuid().ToString();
             var url = NSUrl.FromFilename(path + guid + ".m4a");
-            _recorder = AVAudioRecorder.Create(url, audioSettings, out err);
+            
+            _recorder = AVAudioRecorder.Create(url, audioSettings, out _);
             _recorder.PrepareToRecord();
             _recorder.MeteringEnabled = true;
 
-            _timer = new Timer(100);
-            _timer.Elapsed += TimerOnElapsed;
-            _timer.AutoReset = true;
-            _timer.Enabled = true;
-            _timer.Start();
+            _systemTimer.Initialize(TimerOnElapsed, 100);
+            _systemTimer.Start();
         }
 
-        private void TimerOnElapsed(object sender, ElapsedEventArgs e)
+        private Task TimerOnElapsed()
         {
             _recorder.UpdateMeters();
             var power = _recorder.AveragePower(0);
@@ -90,6 +75,7 @@ namespace App1.iOS
             var clampedAmplitude = Math.Min(Math.Max(amplitude, 0), 1);
             Console.WriteLine(clampedAmplitude);
             AmplitudeUpdateAction?.Invoke(clampedAmplitude);
+            return Task.CompletedTask;
         }
     }
 }

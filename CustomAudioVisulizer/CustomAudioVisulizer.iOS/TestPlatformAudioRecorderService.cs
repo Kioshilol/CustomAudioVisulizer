@@ -2,14 +2,13 @@ using System;
 using AVFoundation;
 using Foundation;
 
-namespace App1.iOS
+namespace CustomAudioVisulizer.iOS
 {
-    public class PlatformAudioRecorderService : IAudioRecorderService
+    public class TestPlatformAudioRecorderService : IAudioRecorderService
     {
         private readonly AVAudioEngine _audioEngine = new AVAudioEngine();
 
         public NSDictionary Settings { get; set; }
-
 
         public void StartRecording()
         {

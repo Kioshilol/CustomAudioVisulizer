@@ -1,6 +1,6 @@
 using System;
 
-namespace App1
+namespace CustomAudioVisulizer
 {
     public interface IAudioRecorderService
     {

@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:CustomAudioVisulizer"
+    x:Class="CustomAudioVisulizer.MainPage"
+    BackgroundColor="Black">
+
+    <Grid BackgroundColor="Black">
+        
+        <Button
+            TextColor="White"
+            BackgroundColor="Transparent"
+            Margin="0,60,0,0"
+            VerticalOptions="Start"
+            Text="Start Recording" 
+            Clicked="OnStartRecording" />
+        
+        <Button 
+            TextColor="White"
+            BackgroundColor="Transparent"
+            Margin="0,0,0,60"
+            VerticalOptions="End" 
+            Text="Stop Recording" 
+            Clicked="OnStopRecording" />
+        
+        <StackLayout
+            x:Name="MainStack"
+            Spacing="8"
+            HeightRequest="200"
+            Orientation="Horizontal"
+            VerticalOptions="Center"
+            HorizontalOptions="CenterAndExpand">
+            
+            <BoxView 
+                WidthRequest="2"
+                CornerRadius="2"
+                HeightRequest="14"
+                VerticalOptions="CenterAndExpand"
+                BackgroundColor="White" />
+            
+            <BoxView 
+                WidthRequest="2"
+                CornerRadius="2"
+                HeightRequest="14"
+                VerticalOptions="CenterAndExpand"
+                BackgroundColor="White" />
+            
+            <BoxView 
+                WidthRequest="2"
+                CornerRadius="2"
+                HeightRequest="14"
+                VerticalOptions="CenterAndExpand"
+                BackgroundColor="White" />
+            
+            <BoxView 
+                WidthRequest="2"
+                CornerRadius="2"
+                HeightRequest="14"
+                VerticalOptions="CenterAndExpand"
+                BackgroundColor="White" />
+            
+            <BoxView 
+                WidthRequest="2"
+                CornerRadius="2"
+                HeightRequest="14"
+                VerticalOptions="CenterAndExpand"
+                BackgroundColor="White" />
+            
+            <BoxView 
+                WidthRequest="2"
+                CornerRadius="2"
+                HeightRequest="14"
+                VerticalOptions="CenterAndExpand"
+                BackgroundColor="White" />
+            
+            <BoxView 
+                WidthRequest="2"
+                CornerRadius="2"
+                HeightRequest="14"
+                VerticalOptions="CenterAndExpand"
+                BackgroundColor="White" />
+            
+            <BoxView 
+                WidthRequest="2"
+                CornerRadius="2"
+                HeightRequest="14"
+                VerticalOptions="CenterAndExpand"
+                BackgroundColor="White" />
+            
+            <BoxView 
+                WidthRequest="2"
+                CornerRadius="2"
+                HeightRequest="14"
+                VerticalOptions="CenterAndExpand"
+                BackgroundColor="White" />
+            
+            <BoxView 
+                WidthRequest="2"
+                CornerRadius="2"
+                HeightRequest="14"
+                VerticalOptions="CenterAndExpand"
+                BackgroundColor="White" />
+            
+        </StackLayout>
+        
+    </Grid>
+
+</ContentPage>

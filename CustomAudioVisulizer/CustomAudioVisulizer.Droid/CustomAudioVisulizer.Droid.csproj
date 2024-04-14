@@ -6,8 +6,8 @@
         <ProjectGuid>{96B2312E-697F-49AA-8FA0-FA9ED59D4BBB}</ProjectGuid>
         <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
         <OutputType>Library</OutputType>
-        <RootNamespace>App1.Droid</RootNamespace>
-        <AssemblyName>App1.Droid</AssemblyName>
+        <RootNamespace>CustomAudioVisulizer.Droid</RootNamespace>
+        <AssemblyName>CustomAudioVisulizer.Droid</AssemblyName>
         <AndroidApplication>True</AndroidApplication>
         <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
         <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -50,6 +50,7 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="MainActivity.cs"/>
+        <Compile Include="PlatformAudioRecorderService.cs" />
         <Compile Include="Resources\Resource.Designer.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
     </ItemGroup>
@@ -65,9 +66,9 @@
         <AndroidResource Include="Resources\values\colors.xml"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\App1\App1.csproj">
+        <ProjectReference Include="..\CustomAudioVisulizer\CustomAudioVisulizer.csproj">
             <Project>{6F58436C-93CC-4DF9-A087-8C3E948A31AA}</Project>
-            <Name>App1</Name>
+            <Name>CustomAudioVisulizer</Name>
         </ProjectReference>
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets"/>

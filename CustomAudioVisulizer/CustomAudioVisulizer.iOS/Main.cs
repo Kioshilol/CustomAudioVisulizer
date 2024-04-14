@@ -4,7 +4,7 @@ using System.Linq;
 using Foundation;
 using UIKit;
 
-namespace App1.iOS
+namespace CustomAudioVisulizer.iOS
 {
     public class Application
     {

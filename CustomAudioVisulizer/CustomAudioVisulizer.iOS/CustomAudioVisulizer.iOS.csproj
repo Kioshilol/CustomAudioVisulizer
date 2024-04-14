@@ -8,9 +8,9 @@
         <ProjectGuid>{FA8EE1F3-393D-42C1-8805-85D5D436222A}</ProjectGuid>
         <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
         <OutputType>Exe</OutputType>
-        <RootNamespace>App1.iOS</RootNamespace>
+        <RootNamespace>CustomAudioVisulizer.iOS</RootNamespace>
         <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-        <AssemblyName>App1.iOS</AssemblyName>
+        <AssemblyName>CustomAudioVisulizer.iOS</AssemblyName>
         <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
@@ -91,8 +91,8 @@
         <Compile Include="AppDelegate.cs"/>
         <None Include="Entitlements.plist"/>
         <None Include="Info.plist"/>
+        <Compile Include="TestPlatformAudioRecorderService.cs" />
         <Compile Include="PlatformAudioRecorderService.cs" />
-        <Compile Include="PlatformAudioRecorderService2.cs" />
         <Compile Include="Properties\AssemblyInfo.cs"/>
     </ItemGroup>
     <ItemGroup>
@@ -111,9 +111,9 @@
         <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\App1\App1.csproj">
+        <ProjectReference Include="..\CustomAudioVisulizer\CustomAudioVisulizer.csproj">
             <Project>{6F58436C-93CC-4DF9-A087-8C3E948A31AA}</Project>
-            <Name>App1</Name>
+            <Name>CustomAudioVisulizer</Name>
         </ProjectReference>
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets"/>
