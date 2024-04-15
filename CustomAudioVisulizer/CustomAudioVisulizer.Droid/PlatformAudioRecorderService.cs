@@ -12,7 +12,7 @@ namespace CustomAudioVisulizer.Droid
 {
     public class PlatformAudioRecorderService : IAudioRecorderService
     {
-        private const int MaximumAmplitude = 32767;
+        private const int MaximumAmplitude = 10000;
         private readonly MediaRecorder  _mediaPlayer = new MediaRecorder();
 
         private readonly Lazy<ISystemTimer> _systemTimer = new Lazy<ISystemTimer>(App.GetService<ISystemTimer>);
@@ -41,13 +41,11 @@ namespace CustomAudioVisulizer.Droid
 
         private Task TimerOnElapsed()
         {
-            var amplitudeValue = (double)_mediaPlayer.MaxAmplitude * 100 / MaximumAmplitude;
-            var amplitudePercentage = amplitudeValue * 100;
+            var amplitude = _mediaPlayer.MaxAmplitude;
+            var maxAmplitude = (double)Math.Min(MaximumAmplitude, amplitude);
+            var amplitudeMultiplier = maxAmplitude  / MaximumAmplitude;
             
-            Debug.WriteLine(amplitudePercentage);
-            Debug.WriteLine(_mediaPlayer.MaxAmplitude);
-            
-            AmplitudeUpdateAction?.Invoke(amplitudeValue);
+            AmplitudeUpdateAction?.Invoke(amplitudeMultiplier);
             return Task.CompletedTask;
         }
         

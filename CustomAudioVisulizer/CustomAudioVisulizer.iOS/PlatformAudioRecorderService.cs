@@ -12,7 +12,9 @@ namespace CustomAudioVisulizer.iOS
 {
     public class PlatformAudioRecorderService : IAudioRecorderService
     {
-        private readonly ISystemTimer _systemTimer = App.GetService<ISystemTimer>();
+        private const int MaximumAmplitude = 60;
+        
+        private readonly Lazy<ISystemTimer> _systemTimer = new Lazy<ISystemTimer>(App.GetService<ISystemTimer>());
         
         private AVAudioRecorder _recorder;
 
@@ -25,7 +27,7 @@ namespace CustomAudioVisulizer.iOS
         public void StopRecording()
         {
             _recorder.Stop();
-            _systemTimer.Stop();
+            _systemTimer.Value.Stop();
         }
 
         public Action<double> AmplitudeUpdateAction { get; set; }
@@ -63,18 +65,19 @@ namespace CustomAudioVisulizer.iOS
             _recorder.PrepareToRecord();
             _recorder.MeteringEnabled = true;
 
-            _systemTimer.Initialize(TimerOnElapsed, 100);
-            _systemTimer.Start();
+            _systemTimer.Value.Initialize(TimerOnElapsed, 100);
+            _systemTimer.Value.Start();
         }
 
         private Task TimerOnElapsed()
         {
             _recorder.UpdateMeters();
-            var power = _recorder.AveragePower(0);
-            var amplitude = 1.1 * Math.Pow(10.0, power / 20.0);
-            var clampedAmplitude = Math.Min(Math.Max(amplitude, 0), 1);
-            Console.WriteLine(clampedAmplitude);
-            AmplitudeUpdateAction?.Invoke(clampedAmplitude);
+            var power = Math.Abs(_recorder.AveragePower(0));
+            power = Math.Min(power, MaximumAmplitude);
+            var powerMultiplier = power / MaximumAmplitude;
+            
+            Console.WriteLine(powerMultiplier);
+            AmplitudeUpdateAction?.Invoke(powerMultiplier);
             return Task.CompletedTask;
         }
     }

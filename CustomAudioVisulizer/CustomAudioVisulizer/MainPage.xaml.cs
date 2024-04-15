@@ -9,9 +9,8 @@ namespace CustomAudioVisulizer
     {
         private readonly IAudioRecorderService _audioRecorderService;
 
-        private const double MaximumHeight = 30;
-        private const double MinimumHeight = 14;
-        private int _lastItemIndex;
+        private const double MaximumHeight = 60;
+        private const double MinimumHeight = 6;
         
         public MainPage()
         {
@@ -19,7 +18,6 @@ namespace CustomAudioVisulizer
 
             _audioRecorderService = DependencyService.Resolve<IAudioRecorderService>();
             _audioRecorderService.AmplitudeUpdateAction = OnUpdateAmplitude;
-            _lastItemIndex = MainStack.Children.Count - 1;
         }
         
         private void OnStartRecording(object _, EventArgs __)
