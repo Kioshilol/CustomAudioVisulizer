@@ -14,7 +14,7 @@ namespace CustomAudioVisulizer.iOS
     {
         private const int MaximumAmplitude = 60;
         
-        private readonly Lazy<ISystemTimer> _systemTimer = new Lazy<ISystemTimer>(App.GetService<ISystemTimer>());
+        private readonly Lazy<ISystemTimer> _systemTimer = new Lazy<ISystemTimer>(() => App.GetService<ISystemTimer>());
         
         private AVAudioRecorder _recorder;
 
@@ -75,6 +75,7 @@ namespace CustomAudioVisulizer.iOS
             var power = Math.Abs(_recorder.AveragePower(0));
             power = Math.Min(power, MaximumAmplitude);
             var powerMultiplier = power / MaximumAmplitude;
+            powerMultiplier = 1 - powerMultiplier;
             
             Console.WriteLine(powerMultiplier);
             AmplitudeUpdateAction?.Invoke(powerMultiplier);
